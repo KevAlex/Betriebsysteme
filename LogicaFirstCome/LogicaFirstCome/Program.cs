@@ -13,7 +13,7 @@ BloqueControl bloqueControl = new BloqueControl();
 //{
 //    Console.WriteLine("Proceso Inicio " + item.Name + " " + item.TiempoLlegada + " Rafaga "+ item.Rafaga);
 //}
-
+bloqueControl.AgregarProceso();
 bloqueControl.IniciarOperacion();
 
 //Proceso proceso = EstadoInicial.ProcesosListos.Dequeue();

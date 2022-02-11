@@ -13,6 +13,8 @@
 
         public static bool Semaforo { set; get; } = false;
 
+        public static int TiempoGlobal { get; set; } = 0;
+
         public static void AgregarProceso(Proceso nuevoProceso)
         {
             InicialProceso.Add(nuevoProceso);
@@ -25,6 +27,7 @@
 
             foreach (Proceso item in sortedProcesos)
             {
+                item.RafagaTemporal = item.Rafaga;
                 interno.Enqueue(item);
             }
 
@@ -32,12 +35,26 @@
         }
 
 
-        public static void EnEspera()
+        public static Task AumentarTiempoEspera()
         {
-            foreach (Proceso item in ProcesosListos)
+            //await Task.Run(() =>
+            //{
+            Console.WriteLine("Aumentado tiempo de espera");
+            if (ProcesosListos.Count != 0)
             {
-                item.TiempoEspera++;
+                foreach (Proceso item in ProcesosListos)
+                {
+                    // Este tiempo se debe aumentar de acuerdo al tiempo general 
+                    item.TiempoEspera++;
+
+                }
             }
+
+            //});
+
+            return Task.CompletedTask;
+
+
         }
     }
 }

@@ -11,15 +11,24 @@
         public int TiempoEspera { get; set; } = 0;
 
         public int TiempoRetorno { get; set; } = 0;
+        public bool Bloqueado { get; set; } = false;
 
+        public int RafagaTemporal { get; set; } = 0;
 
-        //private int myPropertyVar;
-
-        //public int MyProperty
-        //{
-        //    get { return myPropertyVar; }
-        //    set { myPropertyVar = value; }
-        //}
 
     }
+
 }
+
+
+
+
+//private int myPropertyVar;
+
+//public int MyProperty
+//{
+//    get { return myPropertyVar; }
+//    set { myPropertyVar = value; }
+//}
+
+
