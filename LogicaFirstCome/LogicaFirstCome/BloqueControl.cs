@@ -12,10 +12,10 @@
         }
         */
         EstadoEjecucion estadoEjecucion = new EstadoEjecucion();
-
+        Timer timer = new Timer;
         public async Task IniciarOperacion()
         {
-            //await AumentarTiempoGeneral();
+            await AumentarTiempoGeneral();
             while (EstadoInicial.ProcesosListos.Count != 0)
             {
                 Console.WriteLine("Entre ");
@@ -29,15 +29,6 @@
 
                 estadoEjecucion.Ejecutar(siguiente);
 
-            }
-            if (EstadoInicial.ProcesosListos.Count == 0)
-            {
-                foreach (Proceso proceso in EstadoInicial.FinalProceso)
-                {
-                    Console.WriteLine($"Proceso {proceso.Name}, Llegada {proceso.TiempoLlegada}, Rafaga {proceso.Rafaga}" +
-                        $" Comienzo {proceso.TiempoComienzo}, Final: {proceso.TiempoFinal}, Retorno: {proceso.TiempoRetorno}" +
-                        $" Espera: {proceso.TiempoEspera}");
-                }
             }
         }
 
@@ -71,12 +62,10 @@
             //_estadoInicial.InicialProceso.Add(new Proceso { Name = "c", Rafaga = 1, TiempoLlegada = 1 });
             //_estadoInicial.InicialProceso.Add(new Proceso { Name = "d", Rafaga = 1, TiempoLlegada = 0 });
 
-            EstadoInicial.InicialProceso.Add(new Proceso { Name = "A", Rafaga = 8, TiempoLlegada = 0 });
-            EstadoInicial.InicialProceso.Add(new Proceso { Name = "b", Rafaga = 4, TiempoLlegada = 1 });
-            EstadoInicial.InicialProceso.Add(new Proceso { Name = "c", Rafaga = 9, TiempoLlegada = 2 });
-            EstadoInicial.InicialProceso.Add(new Proceso { Name = "d", Rafaga = 5, TiempoLlegada = 3 });
-            EstadoInicial.InicialProceso.Add(new Proceso { Name = "e", Rafaga = 2, TiempoLlegada = 4 });
-
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = "A", Rafaga = 2, TiempoLlegada = 3 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = "b", Rafaga = 1, TiempoLlegada = 5 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = "c", Rafaga = 3, TiempoLlegada = 1 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = "d", Rafaga = 2, TiempoLlegada = 0 });
             EstadoInicial.ProcesosListos = EstadoInicial.OrganizarLista(EstadoInicial.InicialProceso);
 
         }

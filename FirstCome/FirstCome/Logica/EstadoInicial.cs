@@ -1,6 +1,6 @@
-﻿namespace LogicaFirstCome
+﻿namespace FirstCome.Logica
 {
-    public static class EstadoInicial
+    public class EstadoInicial
     {
         public static List<Proceso> InicialProceso { get; set; } = new List<Proceso>();
 
@@ -8,10 +8,13 @@
 
         public static List<Proceso> FinalProceso { get; set; } = new List<Proceso>();
 
+        public static List<Proceso> ListaEjecucion { get; set; } = new List<Proceso>();
 
         public static bool ProcesoBloqueado { get; set; } = false;
 
         public static bool Semaforo { set; get; } = false;
+
+        public static int TiempoGlobal { get; set; } = 0;
 
         public static void AgregarProceso(Proceso nuevoProceso)
         {
@@ -25,6 +28,7 @@
 
             foreach (Proceso item in sortedProcesos)
             {
+                item.RafagaTemporal = item.Rafaga;
                 interno.Enqueue(item);
             }
 
@@ -32,12 +36,32 @@
         }
 
 
-        public static void EnEspera()
+        public static Task AumentarTiempoEspera()
         {
-            foreach (Proceso item in ProcesosListos)
+            //await Task.Run(() =>
+            //{
+
+            //string[] bloqueado = 
+            if (ProcesosListos.Count != 0)
             {
-                item.TiempoEspera++;
+                foreach (Proceso item in ProcesosListos)
+                {
+                    // Este tiempo se debe aumentar de acuerdo al tiempo general 
+                    if (item.FueBloqueado == true)
+                    {
+                        item.TiempoEspera++;
+                        Console.WriteLine($"Aumentado tiempo de espera para {item.Name} el tiempo es: {item.TiempoEspera}");
+
+                    }
+
+                }
             }
+
+            //});
+
+            return Task.CompletedTask;
+
+
         }
     }
 }

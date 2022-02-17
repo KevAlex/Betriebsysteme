@@ -11,8 +11,13 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
-        currentCount++;
+        for (var i = 0; i < 50; i++)
+        {
+            await Task.Delay(1000);
+            currentCount++;
+            StateHasChanged();
+        }
     }
 }

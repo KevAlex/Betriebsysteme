@@ -1,9 +1,422 @@
 ﻿@page "/"
+@using FirstCome.Logica
+@using FirstCome.Store.State
+@*@inject BloqueControl _bloqueControl*@
+@*@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+    @inject IState<ProcesoState> ProcesoState
+    @inject StateFacade Facade
+*@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="alert alert-success" role="alert" style="text-align:center">
+    <h3>Algoritmo FCFS</h3>
+</div>
 
-Welcome to your new app.
+<div style="text-align:center; ">
+    <button type="button" class="btn btn-primary" @onclick="IniciarBloque">Agregar procesos aleatoriamente</button>
+    <button type="button" class="btn btn-success" @onclick="IniciarEjecucion">Expedir proceso</button>
+    <button type="button" class="btn btn-primary" @onclick="Agregar">Agregar proceso</button>
+    <button type="button" class="btn btn-danger" @onclick="Bloquear">Bloquear proceso</button>
+    @*<button @onclick="Reinicio">Reiniciar</button>*@
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+</div>
+
+<br />
+
+<div style="text-align:center">
+    @if (EstadoInicial.Semaforo == false)
+    {
+        <p style="color:green"> (Semaforo) Sección critica libre</p>
+    }
+    else
+    {
+        <p style="color:red">(Semaforo) Sección critica ocupada</p>
+
+    }
+
+</div>
+
+<br />
+<br />
+
+<div class="container">
+    <div class=row>
+        <div class="col">
+            @if (EstadoInicial.ProcesosListos.Any())
+            {
+                <table style="width:100%">
+                    <thead style="background-color: #04AA6D; color: white; padding: 8px;">
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Tiempo Llegada</th>
+                            <th>Rafaga</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Proceso item in EstadoInicial.ProcesosListos)
+                        {
+                            <tr style="text-align:left">
+                                <td style="border: 1px solid #ddd">
+                                    @item.Name
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoLlegada
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.Rafaga
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @*<p style="text-align:center">No hay más procesos en el estado Listo</p>*@
+                <div class="alert alert-danger" role="alert" style="text-align:center">
+                    No hay más procesos en el estado Listo
+                </div>
+            }
+
+        </div>
+
+
+
+        <div class="col">
+            @if (EstadoInicial.FinalProceso.Any())
+            {
+                <table style="width:130%">
+                    <thead style="background-color: #04AA6D; color: white; padding: 8px;">
+                        <tr>
+                            <th>Proceso..</th>
+                            <th>T. Llegada</th>
+                            <th>Rafaga</th>
+                            <th>Tiempo Comienzo</th>
+                            <th>Tiempo Final</th>
+                            <th>Tiempo Retorno</th>
+                            <th>Tiempo Espera</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Proceso item in EstadoInicial.FinalProceso)
+                        {
+                            <tr style="text-align:center">
+                                <td style="border: 1px solid #ddd">
+                                    @item.Name
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoLlegada
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.Rafaga
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoComienzo
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoFinal
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoRetorno
+                                </td>
+                                <td style="border: 1px solid #ddd">
+                                    @item.TiempoEspera
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @*<p style="text-align:center">No hay procesos finalizados aun</p>*@
+                <div class="alert alert-danger" role="alert" style="text-align:center">
+                    No hay procesos finalizados aun
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+
+<div class="alert alert-primary" role="alert" style="text-align:center">
+    Diagrama de Gannt
+</div>
+@*Dibujando los numeros*@
+@for (var i = 0; i < 51; i++)
+{
+    <div style="position:relative; display:inline; left:@(i*20+13)px; ">
+        <p style="display:inline; font-size:12px">@i</p>
+    </div>
+
+}
+@*Dibujando las lineas*@
+<div style="margin-left:10px">
+    @for (var i = 0; i < 73; i++)
+    {
+        <div style="position:relative;  display:inline; left:@(i*20+10)px; width:20px; border: 1px solid black"></div>
+
+    }
+</div>
+
+@*//Linea*@
+<br />
+
+<div style="position:relative; display:inline width:@(EstadoInicial.TiempoGlobal*20)px; border: 1px solid black"></div>
+<br />
+
+
+@*// Dibujando los cuadrados*@
+
+@foreach (var item in rafagas)
+{
+    @*<div style="position:relative; display:inline;  left:@(item*10)px; width:20px; border: 1px solid black"></div>*@
+
+    @*<p style="display:inline">rafaga: @item</p>*@
+    // Cuadrado
+    <div style="position:relative; left:@(item*20+10)px; background-color:green; border: 1px solid black; width:20px; height:20px"></div>
+
+}
+
+@*// Dibujando los tiempos de espera*@
+@foreach (var anulado in EstadoInicial.ProcesosListos)
+{
+    if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
+    {
+        @* <p>rafaga en espera: @anulado.Name</p>*@
+        <div style="position:relative; left:@(EstadoInicial.TiempoGlobal*20+10)px; background-color:gray; border: 1px solid black; width:20px; height:20px"></div>
+
+
+    }
+}
+
+<br />
+@*// Dibujando el nombre del proceso en ejecucion*@
+@if (EstadoInicial.ListaEjecucion.Any())
+{
+    foreach (var eje in EstadoInicial.ListaEjecucion)
+    {
+        <p style="display:inline">Proceso en ejecucion: @eje.Name</p>
+    }
+}
+
+@*// Dibujando el nombre del proceso en espera*@
+@foreach (var anulado in EstadoInicial.ProcesosListos)
+{
+    if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
+    {
+        <p>Proceso(s) en espera: @anulado.Name</p>
+    }
+}
+<br />
+<br />
+
+
+
+@code {
+    private BloqueControl bloqueControl;
+    private EstadoEjecucion estadoEjecucion;
+    private EstadoBloqueo estadoBloqueo;
+    Queue<Proceso> UiList = new Queue<Proceso>();
+    Proceso procesoUi = new Proceso();
+    List<int> rafagas = new List<int>();
+    private int contadorUi = 0;
+    List<int> tiempoUi = new List<int>();
+
+
+    protected override Task OnInitializedAsync()
+    {
+        bloqueControl = new BloqueControl();
+        estadoEjecucion = new EstadoEjecucion();
+        bloqueControl.AgregarProcesoInicial();
+        EstadoInicial.Semaforo = false;
+        return base.OnInitializedAsync();
+    }
+
+    public async Task IniciarEjecucion()
+    {
+
+        while (EstadoInicial.ProcesosListos.Count > 0)
+        {
+            Proceso siguiente = EstadoInicial.ProcesosListos.Dequeue();
+            procesoUi = siguiente;
+            //rafagas.Add(siguiente.RafagaTemporal);
+            rafagas.Add(EstadoInicial.TiempoGlobal);
+            tiempoUi.Add(EstadoInicial.TiempoGlobal);
+
+            siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
+            // nombreUi.Add(siguiente.Name);
+            await Task.Delay(1000);
+            //contador = siguiente.RafagaTemporal;
+            while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
+            {
+                await estadoEjecucion.Ejecutar(siguiente);
+                EstadoInicial.TiempoGlobal++;
+
+                rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
+                tiempoUi.Add(EstadoInicial.TiempoGlobal);
+                await Task.Delay(1000);
+                StateHasChanged();
+
+            }
+            EstadoInicial.ProcesoBloqueado = false;
+            //siguiente.Bloqueado = false;
+            contadorUi++;
+        }
+        //bloqueControl.IniciarOperacion();
+    }
+    public async Task Bloquear()
+    {
+        EstadoInicial.ProcesoBloqueado = true;
+        foreach (Proceso bloqueado in EstadoInicial.ListaEjecucion)
+        {
+            bloqueado.FueBloqueado = true;
+            // Genera simplemente un Warning en el navegador
+            EstadoInicial.ListaEjecucion.Remove(bloqueado);
+            EstadoInicial.ProcesosListos.Enqueue(bloqueado);
+        }
+    }
+    public async Task IniciarBloque()
+    {
+        //Console.WriteLine("Aca");
+        await bloqueControl.AgregarProcesoInicial();
+        UiList = EstadoInicial.ProcesosListos;
+        //Facade.AddProceso(EstadoInicial.ProcesosListos);
+    }
+
+    public async Task Reinicio()
+    {
+        EstadoInicial.ProcesosListos.Clear();
+        EstadoInicial.ListaEjecucion.Clear();
+        EstadoInicial.FinalProceso.Clear();
+
+    }
+    public async Task Agregar()
+    {
+        await bloqueControl.AgregarNuevoProceso();
+
+    }
+
+
+}
+
+@*@foreach (var finalizado in EstadoInicial.FinalProceso)
+    {
+
+    <p style="display:inline">rafaga fin: @finalizado.Name</p>
+    // Cuadrado
+    <div style="position:relative; left:@(finalizado.TiempoFinal*20)px; background-color:green; border: 1px solid black; width:20px; height:20px"></div>
+
+    }*@
+@*
+
+
+    @*
+    <table>
+    <thead>
+    <tr>
+    <th>Proceso</th>
+    <th>Tiempo Llegada</th>
+    <th>Rafaga</th>
+    <th>Tiempo Comienzo</th>
+    <th>Tiempo Final</th>
+    <th>Tiempo Retorno</th>
+    <th>Tiempo Espera</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Proceso item in EstadoInicial.FinalProceso)
+    {
+    <tr>
+    <td>
+    @item.Name
+    </td>
+    <td>
+    @item.TiempoLlegada
+    </td>
+    <td>
+    @item.Rafaga
+    </td>
+    <td>
+    @item.TiempoComienzo
+    </td><td>
+    @item.TiempoFinal
+    </td><td>
+    @item.TiempoRetorno
+    </td><td>
+    @item.TiempoEspera
+    </td>
+    </tr>
+    }
+    </tbody>
+    </table>*@
+     @*<div class="container">
+    <div class="row">
+
+    <div class="col" style="width:20px; height:20px; border: 1px solid black;">
+
+    </div>
+
+    <div class="col" style="width:20px; height:20px">
+    @for (var i = 0; i < 42; i++)
+    {
+    <div style="position:relative; display:inline; left:@(i*20+10)px; width:20px">
+    <p style="display:inline; font-size:12px">@i</p>
+    </div>
+
+    }
+
+    <br />
+
+    @for (var i = 0; i < 60; i++)
+    {
+    <div style="position:relative; display:inline; left:@(i*20+10)px; width:20px; border: 1px solid black"></div>
+
+    }
+    </div>
+
+    </div>
+
+    <div class="row">
+
+    <div class="col" style="width:20px; height:20px; border: 1px solid black; ">
+
+    </div>
+
+    <div class="col" style="width:20px; height:20px">
+
+    </div>
+    </div>
+    <br />
+    <div class="row">
+    <div class="col">
+    @foreach (var item in rafagas)
+    {
+    @*<div style="position:relative; display:inline;  left:@(item*10)px; width:20px; border: 1px solid black"></div>
+
+    <p>rafaga: item</p>
+    Cuadrado
+
+    }
+    </div>
+    <div class="col">
+    @foreach (var item in rafagas)
+    {
+    // Cuadrado
+    <div style="position:relative; left:@(item*20)px; border: 1px solid black; width:20px; height:20px"></div>
+
+    }
+    </div>
+    </div>
+    </div>
+*@

@@ -16,30 +16,17 @@
         public async Task Ejecutar(Proceso procesoN)
         {
             EstadoInicial.ProcesoBloqueado = false;
-
-            if (procesoN.Bloqueado == false)
-            {
-                procesoN.TiempoComienzo = EstadoInicial.TiempoGlobal; // Debe ser el TiempoGeneral
-
-            }
-
+            procesoN.TiempoComienzo = 5; // Debe ser el TiempoGeneral
             EstadoInicial.Semaforo = true;
-            Console.WriteLine("Proceso en ejecucion " + procesoN.Name + " Llegada " + procesoN.TiempoLlegada + " Rafaga " + procesoN.Rafaga + " RafTem: " + procesoN.RafagaTemporal
-                + " Tiempo General " + EstadoInicial.TiempoGlobal);
+            Console.WriteLine("Proceso en ejecucion " + procesoN.Name + " " + procesoN.TiempoLlegada + " Rafaga " + procesoN.Rafaga);
 
-
-            while (procesoN.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
+            while (procesoN.Rafaga > 0 && EstadoInicial.ProcesoBloqueado == false)
             {
-                procesoN.RafagaTemporal -= 1;
-
-                EstadoInicial.TiempoGlobal++;
-
-                //await EstadoInicial.AumentarTiempoEspera();
-
-                //if (procesoN.Name.Equals("c"))
-                //{
-                //    EstadoInicial.ProcesoBloqueado = true;
-                //}
+                procesoN.Rafaga -= 1;
+                if (procesoN.Name.Equals("c"))
+                {
+                    EstadoInicial.ProcesoBloqueado = true;
+                }
             }
             if (EstadoInicial.ProcesoBloqueado == true)
             {
@@ -47,12 +34,12 @@
                 EstadoInicial.Semaforo = false;
 
             }
-            else if (!(procesoN.RafagaTemporal > 0))
+            else if (!(procesoN.Rafaga > 0))
             {
                 // Este tiempo final corregirlo para que abarque más casos
-                procesoN.TiempoFinal = procesoN.Rafaga + procesoN.TiempoComienzo;
+                procesoN.TiempoFinal = procesoN.TiempoComienzo + procesoN.TiempoLlegada;
                 procesoN.TiempoRetorno = procesoN.TiempoFinal - procesoN.TiempoLlegada;
-                procesoN.TiempoEspera = (procesoN.TiempoRetorno - procesoN.Rafaga) + procesoN.TiempoEspera;
+                procesoN.TiempoEspera = procesoN.TiempoRetorno - procesoN.Rafaga;
                 EstadoInicial.FinalProceso.Add(procesoN);
                 EstadoInicial.Semaforo = false;
                 Console.WriteLine("Finalizado " + procesoN.Name);
