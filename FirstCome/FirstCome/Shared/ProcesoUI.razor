@@ -1,12 +1,20 @@
-﻿
-<div>
-    <p>Soy el proceso @Id</p>
-    <p>Posicion @Posicion</p>
+﻿<div style="position:relative; margin-top:20px">
+
+
+<div style="position:absolute;  left:@(Posicion*20+10)px;  background-color: @Color; solid black; width:20px; height:20px" >
+    
+    @*<p>Posicion @Posicion</p>*@
 </div>
 
+
+
+</div>
 @code {
     [Parameter]
     public string Id { get; set; }
+
+    [Parameter]
+    public string Color { get; set; }
 
     [Parameter]
     public int Posicion { get; set; } = 0;
