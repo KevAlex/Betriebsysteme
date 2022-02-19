@@ -9,7 +9,7 @@
 
 <PageTitle>Index</PageTitle>
 
-<div class="alert alert-success" role="alert" style="text-align:center">
+<div class="alert alert-info" role="alert" style="text-align:center; height:70px">
     <h3>Algoritmo FCFS</h3>
 </div>
 
@@ -58,7 +58,7 @@
                     <tbody>
                         @foreach (Proceso item in EstadoInicial.ProcesosListos)
                         {
-                            <tr style="text-align:left">
+                            <tr style="text-align:center">
                                 <td style="border: 1px solid #ddd">
                                     @item.Name
                                 </td>
@@ -78,7 +78,7 @@
             {
                 @*<p style="text-align:center">No hay más procesos en el estado Listo</p>*@
                 <div class="alert alert-danger" role="alert" style="text-align:center">
-                    No hay más procesos en el estado Listo
+                    No hay procesos en el estado Listo
                 </div>
             }
 
@@ -148,7 +148,7 @@
 <br />
 
 
-<div class="alert alert-primary" role="alert" style="text-align:center">
+<div class="alert alert-primary" role="alert" style="text-align:center; height:55px">
     Diagrama de Gannt
 </div>
 @*Dibujando los numeros*@
@@ -159,7 +159,7 @@
     </div>
 
 }
-@*Dibujando las lineas*@
+@*Dibujando las lineas verticales*@
 <div style="margin-left:10px">
     @for (var i = 0; i < 73; i++)
     {
@@ -172,6 +172,7 @@
 <br />
 
 <div style="position:relative; display:inline width:@(EstadoInicial.TiempoGlobal*20)px; border: 1px solid black"></div>
+
 <br />
 
 
@@ -184,7 +185,6 @@
     @*<p style="display:inline">rafaga: @item</p>*@
     // Cuadrado
     <div style="position:relative; left:@(item*20+10)px; background-color:green; border: 1px solid black; width:20px; height:20px"></div>
-
 }
 
 @*// Dibujando los tiempos de espera*@
@@ -194,8 +194,6 @@
     {
         @* <p>rafaga en espera: @anulado.Name</p>*@
         <div style="position:relative; left:@(EstadoInicial.TiempoGlobal*20+10)px; background-color:gray; border: 1px solid black; width:20px; height:20px"></div>
-
-
     }
 }
 
@@ -205,7 +203,11 @@
 {
     foreach (var eje in EstadoInicial.ListaEjecucion)
     {
-        <p style="display:inline">Proceso en ejecucion: @eje.Name</p>
+        @*<p style="display:inline; color:green">Proceso en ejecucion: @eje.Name</p>*@
+
+        <div class="alert alert-success" role="alert"  style="height:55px; text-align:center ">
+            Proceso en ejecucion: @eje.Name
+        </div>
     }
 }
 
@@ -214,7 +216,10 @@
 {
     if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
     {
-        <p>Proceso(s) en espera: @anulado.Name</p>
+        @*<p style="color:gray">Proceso(s) en espera: @anulado.Name</p>*@
+        <div class="alert alert-dark" role="alert" style="height:55px; text-align:center">
+            Proceso en espera: @anulado.Name
+        </div>
     }
 }
 <br />
@@ -237,7 +242,7 @@
     {
         bloqueControl = new BloqueControl();
         estadoEjecucion = new EstadoEjecucion();
-        bloqueControl.AgregarProcesoInicial();
+        //bloqueControl.AgregarProcesoInicial();
         EstadoInicial.Semaforo = false;
         return base.OnInitializedAsync();
     }
@@ -289,7 +294,7 @@
     {
         //Console.WriteLine("Aca");
         await bloqueControl.AgregarProcesoInicial();
-        UiList = EstadoInicial.ProcesosListos;
+        //UiList = EstadoInicial.ProcesosListos;
         //Facade.AddProceso(EstadoInicial.ProcesosListos);
     }
 

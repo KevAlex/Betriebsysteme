@@ -7,17 +7,17 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <progress max="300" style="position:relative;" value="@(currentCount)"></progress>
 
 @code {
-    private int currentCount = 0;
+    private double currentCount = 0;
+    private int max = 20;
 
     private async Task IncrementCount()
     {
-        for (var i = 0; i < 50; i++)
+        for (var i = 0; i < 10; i++)
         {
-            await Task.Delay(1000);
-            currentCount++;
-            StateHasChanged();
+            currentCount = currentCount+ 1;
         }
     }
 }
