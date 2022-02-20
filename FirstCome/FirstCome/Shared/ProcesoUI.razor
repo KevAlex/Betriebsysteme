@@ -1,8 +1,8 @@
 ﻿<div style="position:relative; margin-top:20px">
 
 
-<div style="position:absolute;  left:@(Posicion*20+10)px;  background-color: @Color; solid black; width:20px; height:20px" >
-    
+<div style="position:absolute; text-align:center;  left:@(Posicion*20+10)px;  background-color: @Color; solid black; width:25px; height:25px" >
+    @Id
     @*<p>Posicion @Posicion</p>*@
 </div>
 
@@ -11,7 +11,7 @@
 </div>
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public char Id { get; set; }
 
     [Parameter]
     public string Color { get; set; }

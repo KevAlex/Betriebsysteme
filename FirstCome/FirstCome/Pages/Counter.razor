@@ -16,7 +16,7 @@
     @if (index == 0)
     {
         <ProcesoUI Id=@proc.Id Color="green" Posicion=@proc.Posicion />
-        <ProcesoUI Color="gray" Posicion=proc.Posicion-1/>
+       @* <ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
     }
     else
     {
@@ -24,7 +24,7 @@
         @if (procesoUIs[(index - aux)].Id == proc.Id)
         {
             <ProcesoUI Id=@proc.Id Color="green" Posicion=@proc.Posicion />
-            <ProcesoUI Color="gray" Posicion=proc.Posicion-1/>
+            @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
         else
         {
@@ -42,12 +42,7 @@
     private int aux = 0;
     List<ProcesoUI> procesoUIs = new List<ProcesoUI>();
 
-    class ProcesoUI
-    {
-        public string Id { get; set; }
-        public int Posicion { get; set; }
-    }
-
+    
 
     private async Task IncrementCount()
     {
@@ -56,12 +51,12 @@
             currentCount = currentCount + 1;
             if (i < 5)
             {
-                procesoUIs.Add(new ProcesoUI { Id = "A", Posicion = i });
+                procesoUIs.Add(new ProcesoUI { Id = 'a', Posicion = i });
 
             }
             else
             {
-            procesoUIs.Add(new ProcesoUI { Id = "B", Posicion = i });
+            procesoUIs.Add(new ProcesoUI { Id = 'b', Posicion = i });
                 
             }
 
