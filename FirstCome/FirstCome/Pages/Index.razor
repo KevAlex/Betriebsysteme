@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using FirstCome.Logica
 @using FirstCome.Store.State
+@using Shared
 @*@inject BloqueControl _bloqueControl*@
 @*@inherits Fluxor.Blazor.Web.Components.FluxorComponent
     @inject IState<ProcesoState> ProcesoState
@@ -41,38 +42,32 @@
 <br />
 <br />
 
+
 <div class="container">
     <div class=row>
         <div class="col">
             @if (EstadoInicial.ProcesosListos.Any())
             {
-                <table style="width:100%">
-                    <thead style="background-color: #04AA6D; color: white; padding: 8px;">
-                        <tr>
-                            <th>Proceso</th>
-                            <th>Tiempo Llegada</th>
-                            <th>Rafaga</th>
+                <TableComponent Items=EstadoInicial.ProcesosListos>
+                    <TableHeader>
+                        <th>Proceso</th>
+                        <th>Tiempo Llegada</th>
+                        <th>Rafaga</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Proceso item in EstadoInicial.ProcesosListos)
-                        {
-                            <tr style="text-align:center">
-                                <td style="border: 1px solid #ddd">
-                                    @item.Name
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoLlegada
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.Rafaga
-                                </td>
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td>
+                            @context.Name
+                        </td>
+                        <td>
+                            @context.TiempoLlegada
+                        </td>
+                        <td>
+                            @context.Rafaga
+                        </td>
+                    </RowTemplate>
+                </TableComponent>
+              
             }
             else
             {
@@ -84,53 +79,44 @@
 
         </div>
 
-
-
         <div class="col">
             @if (EstadoInicial.FinalProceso.Any())
             {
-                <table style="width:130%">
-                    <thead style="background-color: #04AA6D; color: white; padding: 8px;">
-                        <tr>
-                            <th>Proceso..</th>
-                            <th>T. Llegada</th>
-                            <th>Rafaga</th>
-                            <th>Tiempo Comienzo</th>
-                            <th>Tiempo Final</th>
-                            <th>Tiempo Retorno</th>
-                            <th>Tiempo Espera</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Proceso item in EstadoInicial.FinalProceso)
-                        {
-                            <tr style="text-align:center">
-                                <td style="border: 1px solid #ddd">
-                                    @item.Name
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoLlegada
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.Rafaga
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoComienzo
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoFinal
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoRetorno
-                                </td>
-                                <td style="border: 1px solid #ddd">
-                                    @item.TiempoEspera
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <TableComponent Items="EstadoInicial.FinalProceso">
+                    <TableHeader>
+                        <th>Proceso..</th>
+                        <th>T. Llegada</th>
+                        <th>Rafaga</th>
+                        <th>Tiempo Comienzo</th>
+                        <th>Tiempo Final</th>
+                        <th>Tiempo Retorno</th>
+                        <th>Tiempo Espera</th>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td style="border: 1px solid #ddd">
+                            @context.Name
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.TiempoLlegada
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.Rafaga
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.TiempoComienzo
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.TiempoFinal
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.TiempoRetorno
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.TiempoEspera
+                        </td>
+                    </RowTemplate>
+                </TableComponent>
             }
             else
             {
@@ -176,6 +162,7 @@
 <br />
 
 
+
 @*// Dibujando los cuadrados*@
 
 @foreach (var proc in procesoUIs)
@@ -207,15 +194,15 @@
     }
     // Dibujo los procesos en espera
     @*foreach (var espera in EstadoInicial.ProcesosListos)
-    {
+        {
         if ((espera.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (espera.TiempoComienzo < EstadoInicial.TiempoGlobal))
         {
-            <br />
-            <ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion />
+        <br />
+        <ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion />
 
         }
 
-    }*@
+        }*@
 
 
 }
@@ -244,9 +231,9 @@
     {
         @*<p style="display:inline; color:green">Proceso en ejecucion: @eje.Name</p>*@
 
-         <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
+        <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
             Proceso en ejecucion: @eje.Name
-            </div>
+        </div>
     }
 }
 
