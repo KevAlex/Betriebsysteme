@@ -21,21 +21,41 @@
             InicialProceso.Add(nuevoProceso);
         }
 
+        // Organizando lista inicial (?)
         public static Queue<Proceso> OrganizarLista(List<Proceso> listaInicial)
         {
             Queue<Proceso> interno = new Queue<Proceso>();
-            List<Proceso> sortedProcesos = InicialProceso.OrderBy(o => o.TiempoLlegada).ToList();
+            // Organizando la lista basado en la rafaga
+            List<Proceso> sortedProcesos = listaInicial.OrderBy(o => o.Rafaga).ToList();
 
             foreach (Proceso item in sortedProcesos)
             {
+                // Dos rafagas iguales definir logica para ordenar?
                 item.RafagaTemporal = item.Rafaga;
                 interno.Enqueue(item);
+                //Console.WriteLine($"name: {item.Name}, Rafaga: {item.Rafaga}");
             }
 
             return interno;
         }
 
+        // organizando la cola
+        public static Queue<Proceso> OrganizarCola(Queue<Proceso> cola)
+        {
+            Queue<Proceso> interno = new Queue<Proceso>();
+            // Organizando la lista basado en la rafaga
+            List<Proceso> sortedProcesos = cola.OrderBy(o => o.Rafaga).ToList();
 
+            foreach (Proceso item in sortedProcesos)
+            {
+                // Dos rafagas iguales definir logica para ordenar?
+                item.RafagaTemporal = item.Rafaga;
+                interno.Enqueue(item);
+                Console.WriteLine($"name: {item.Name}, Rafaga: {item.Rafaga}");
+            }
+
+            return interno;
+        }
         public static Task AumentarTiempoEspera()
         {
             //await Task.Run(() =>

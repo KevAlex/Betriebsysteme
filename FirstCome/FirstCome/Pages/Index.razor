@@ -183,7 +183,7 @@
         {
             // Dibujo el mismo proceso en ejecucion
             <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
-             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
+             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@    
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
         else
@@ -283,6 +283,9 @@
 
         while (EstadoInicial.ProcesosListos.Count > 0)
         {
+            // Reorganizando la lista en caso de bloqueo
+            EstadoInicial.ProcesosListos = EstadoInicial.OrganizarCola(EstadoInicial.ProcesosListos);
+
             Proceso siguiente = EstadoInicial.ProcesosListos.Dequeue();
             procesoUi = siguiente;
             //rafagas.Add(siguiente.RafagaTemporal);

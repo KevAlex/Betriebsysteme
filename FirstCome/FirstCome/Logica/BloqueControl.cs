@@ -96,7 +96,7 @@
             for (int i = 0; i < 5; i++)
             {
                 randomChar = (char)rnd.Next('a', 'z');
-                randomRafaga = rnd.Next(2, 5);
+                randomRafaga = rnd.Next(1, 7);
                 EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga });
                 Console.WriteLine(randomChar);
             }
