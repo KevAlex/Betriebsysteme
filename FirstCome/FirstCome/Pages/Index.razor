@@ -173,7 +173,8 @@
     {
         // Dibujo el mismo proceso en ejecucion
         <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
-        @* <ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
+        // Trying to draw the waiteing time
+         @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
     }
     else
     {
@@ -182,6 +183,7 @@
         {
             // Dibujo el mismo proceso en ejecucion
             <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
+             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
         else
@@ -271,7 +273,7 @@
     {
         bloqueControl = new BloqueControl();
         estadoEjecucion = new EstadoEjecucion();
-        bloqueControl.AgregarProcesoInicial();
+        //bloqueControl.AgregarProcesoInicial();
         EstadoInicial.Semaforo = false;
         return base.OnInitializedAsync();
     }
