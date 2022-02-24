@@ -67,7 +67,7 @@
                         </td>
                     </RowTemplate>
                 </TableComponent>
-              
+
             }
             else
             {
@@ -172,9 +172,9 @@
     @if (index == 0)
     {
         // Dibujo el mismo proceso en ejecucion
-        <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
+        <ProcesoUI Id=proc.Id Posicion=proc.Posicion Color=@proc.Color />
         // Trying to draw the waiteing time
-         @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
+        @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
     }
     else
     {
@@ -182,15 +182,15 @@
         @if (procesoUIs[(index - aux)].Id == proc.Id)
         {
             // Dibujo el mismo proceso en ejecucion
-            <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
-             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@    
+            <ProcesoUI Id=proc.Id Color=@proc.Color Posicion=proc.Posicion />
+            @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
         else
         {
             <br />
             // Dibujo el nuevo proceso en ejecucion
-            <ProcesoUI Id=@proc.Id Color="green" Posicion=proc.Posicion />
+            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
             @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
         }
     }
@@ -217,11 +217,9 @@
         @* <p>rafaga en espera: @anulado.Name</p>*@
         @*<div style="position:relative; left:@(EstadoInicial.TiempoGlobal*20+10)px; background-color:gray; border: 1px solid black; width:20px; height:20px"></div>*@
 
-        foreach (var espera in procesoUIs)
-        {
-            @*<ProcesoUI Color="gray" Posicion=espera.Posicion+1 Id=@anulado.Name/>*@
 
-        }
+        //procesoUIs.Add(new ProcesoUI { Id = anulado.Name, Posicion = EstadoInicial.TiempoGlobal , Color="gray" });
+
     }
 }
 
@@ -270,10 +268,11 @@
 
 
     protected override Task OnInitializedAsync()
+
     {
         bloqueControl = new BloqueControl();
         estadoEjecucion = new EstadoEjecucion();
-        //bloqueControl.AgregarProcesoInicial();
+        bloqueControl.AgregarProcesoInicial();
         EstadoInicial.Semaforo = false;
         return base.OnInitializedAsync();
     }
@@ -300,7 +299,16 @@
             {
                 await estadoEjecucion.Ejecutar(siguiente);
                 EstadoInicial.TiempoGlobal++;
-                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal });
+                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
+
+                foreach (var espera in EstadoInicial.ProcesosListos)
+                {
+                    if ((espera.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (espera.TiempoComienzo < EstadoInicial.TiempoGlobal))
+                    {
+                        procesoUIs.Add(new ProcesoUI { Id = espera.Name, Posicion = EstadoInicial.TiempoGlobal , Color="gray" });
+
+                    }
+                }
 
                 rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
                 tiempoUi.Add(EstadoInicial.TiempoGlobal);
