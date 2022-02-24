@@ -172,7 +172,7 @@
     @if (index == 0)
     {
         // Dibujo el mismo proceso en ejecucion
-        <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
+        <ProcesoUI Id=proc.Id Color=@proc.Color Posicion=proc.Posicion />
         // Trying to draw the waiteing time
          @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
     }
@@ -182,7 +182,7 @@
         @if (procesoUIs[(index - aux)].Id == proc.Id)
         {
             // Dibujo el mismo proceso en ejecucion
-            <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
+            <ProcesoUI Id=proc.Id Color=@proc.Color Posicion=proc.Posicion />
              @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
@@ -190,7 +190,7 @@
         {
             <br />
             // Dibujo el nuevo proceso en ejecucion
-            <ProcesoUI Id=@proc.Id Color="green" Posicion=proc.Posicion />
+            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
             @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
         }
     }
@@ -297,7 +297,7 @@
             {
                 await estadoEjecucion.Ejecutar(siguiente);
                 EstadoInicial.TiempoGlobal++;
-                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal });
+                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color="green" });
 
                 rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
                 tiempoUi.Add(EstadoInicial.TiempoGlobal);
