@@ -11,7 +11,7 @@
 <PageTitle>Index</PageTitle>
 
 <div class="alert alert-info" role="alert" style="text-align:center; height:70px">
-    <h3>Algoritmo FCFS</h3>
+    <h3>Algoritmo SJF</h3>
 </div>
 
 <div style="text-align:center; ">
@@ -279,46 +279,69 @@
 
     public async Task IniciarEjecucion()
     {
-
+        int inicio = 0;
         while (EstadoInicial.ProcesosListos.Count > 0)
         {
-            // Reorganizando la lista en caso de bloqueo
-            EstadoInicial.ProcesosListos = EstadoInicial.OrganizarCola(EstadoInicial.ProcesosListos);
-
-            Proceso siguiente = EstadoInicial.ProcesosListos.Dequeue();
-            procesoUi = siguiente;
-            //rafagas.Add(siguiente.RafagaTemporal);
-            rafagas.Add(EstadoInicial.TiempoGlobal);
-            tiempoUi.Add(EstadoInicial.TiempoGlobal);
-            //procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal });
-            siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
-            // nombreUi.Add(siguiente.Name);
-            await Task.Delay(1500);
-            //contador = siguiente.RafagaTemporal;
-            while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
+            // Organizando procesos basados en cola, despues de la primera ejecucion
+            if (inicio != 0)
             {
-                await estadoEjecucion.Ejecutar(siguiente);
-                EstadoInicial.TiempoGlobal++;
-                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
-
-                foreach (var espera in EstadoInicial.ProcesosListos)
-                {
-                    if ((espera.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (espera.TiempoComienzo < EstadoInicial.TiempoGlobal))
-                    {
-                        procesoUIs.Add(new ProcesoUI { Id = espera.Name, Posicion = EstadoInicial.TiempoGlobal , Color="gray" });
-
-                    }
-                }
-
-                rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
-                tiempoUi.Add(EstadoInicial.TiempoGlobal);
-                await Task.Delay(1500);
-                StateHasChanged();
+                EstadoInicial.ProcesosListos = EstadoInicial.OrganizarCola(EstadoInicial.ProcesosListos);
 
             }
-            EstadoInicial.ProcesoBloqueado = false;
-            //siguiente.Bloqueado = false;
-            contadorUi++;
+            inicio = 1;
+
+            Console.WriteLine(EstadoInicial.TiempoGlobal);
+
+            if (EstadoInicial.ListaEjecucion.Count == 0)
+            {
+                Proceso siguiente = EstadoInicial.ProcesosListos.Dequeue();
+                procesoUi = siguiente;
+                EstadoInicial.ListaEjecucion.Add(siguiente);
+            }
+            rafagas.Add(EstadoInicial.TiempoGlobal);
+            tiempoUi.Add(EstadoInicial.TiempoGlobal);
+
+
+            //await Task.Delay(1500);
+
+            if (EstadoInicial.ListaEjecucion.First().TiempoLlegada <= EstadoInicial.TiempoGlobal)
+            {
+                Proceso siguienteEjecucion = EstadoInicial.ListaEjecucion.First();
+                siguienteEjecucion.TiempoComienzo = EstadoInicial.TiempoGlobal;
+
+                while (siguienteEjecucion.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
+                {
+                    await estadoEjecucion.Ejecutar(siguienteEjecucion);
+                    EstadoInicial.TiempoGlobal++;
+                    procesoUIs.Add(new ProcesoUI { Id = siguienteEjecucion.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
+
+                    /*foreach (var espera in EstadoInicial.ProcesosListos)
+                    {
+                        if ((espera.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (espera.TiempoComienzo < EstadoInicial.TiempoGlobal))
+                        {
+                            //procesoUIs.Add(new ProcesoUI { Id = espera.Name, Posicion = EstadoInicial.TiempoGlobal , Color="gray" });
+
+                        }
+                    }
+                    */
+                    rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
+                    tiempoUi.Add(EstadoInicial.TiempoGlobal);
+
+                    //await Task.Delay(1500);
+
+                    StateHasChanged();
+
+                }
+                EstadoInicial.ProcesoBloqueado = false;
+                //siguiente.Bloqueado = false;
+                contadorUi++;
+            }
+            else
+            {
+                    EstadoInicial.TiempoGlobal++;
+                 
+            }
+
         }
         //bloqueControl.IniciarOperacion();
     }

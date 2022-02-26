@@ -76,22 +76,19 @@
         }
         public Task AgregarProcesoInicial()
         {
-            //_estadoInicial.InicialProceso.Add(new Proceso { Name = "A", Rafaga = 1, TiempoLlegada = 3 });
-            //_estadoInicial.InicialProceso.Add(new Proceso { Name = "b", Rafaga = 1, TiempoLlegada = 5 });
-            //_estadoInicial.InicialProceso.Add(new Proceso { Name = "c", Rafaga = 1, TiempoLlegada = 1 });
-            //_estadoInicial.InicialProceso.Add(new Proceso { Name = "d", Rafaga = 1, TiempoLlegada = 0 });
+            /*EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 8, TiempoLlegada = 0 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 4, TiempoLlegada = 1 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 9, TiempoLlegada = 2 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 5, TiempoLlegada = 3 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'e', Rafaga = 2, TiempoLlegada = 4 });
+            */
 
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 8, TiempoLlegada = 0 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 4, TiempoLlegada = 1 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 9, TiempoLlegada = 2 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 5, TiempoLlegada = 3 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'e', Rafaga = 2, TiempoLlegada = 4 });
-
-
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 5, TiempoLlegada = 0 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 3, TiempoLlegada = 1 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 2, TiempoLlegada = 2 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 1, TiempoLlegada = 3 });
+            /*EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 1, TiempoLlegada = 0 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 1, TiempoLlegada = 1 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 2, TiempoLlegada = 3 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'h', Rafaga = 3, TiempoLlegada = 2 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'f', Rafaga = 2, TiempoLlegada = 4 });
+            */
 
             for (int i = 0; i < 5; i++)
             {
