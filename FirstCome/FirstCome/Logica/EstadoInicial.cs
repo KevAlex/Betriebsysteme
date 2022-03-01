@@ -44,12 +44,12 @@
         {
             Queue<Proceso> interno = new Queue<Proceso>();
             // Organizando la lista basado en la rafaga
-            List<Proceso> sortedProcesos = cola.OrderBy(o => o.Rafaga).ToList();
+            List<Proceso> sortedProcesos = cola.OrderBy(o => o.RafagaTemporal).ToList();
 
             foreach (Proceso item in sortedProcesos)
             {
                 // Dos rafagas iguales definir logica para ordenar?
-                item.RafagaTemporal = item.Rafaga;
+                //item.RafagaTemporal = item.Rafaga;
                 interno.Enqueue(item);
                 Console.WriteLine($"name: {item.Name}, Rafaga: {item.Rafaga}");
             }

@@ -302,7 +302,7 @@
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
 
 
-            //await Task.Delay(1500);
+            await Task.Delay(1500);
 
             if (EstadoInicial.ListaEjecucion.First().TiempoLlegada <= EstadoInicial.TiempoGlobal)
             {
@@ -327,7 +327,7 @@
                     rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
                     tiempoUi.Add(EstadoInicial.TiempoGlobal);
 
-                    //await Task.Delay(1500);
+                    await Task.Delay(1500);
 
                     StateHasChanged();
 
