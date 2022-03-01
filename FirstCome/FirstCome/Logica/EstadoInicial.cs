@@ -5,7 +5,6 @@
         public static List<Proceso> InicialProceso { get; set; } = new List<Proceso>();
 
         public static Queue<Proceso> ProcesosListos { get; set; } = new Queue<Proceso>();
-
         public static List<Proceso> FinalProceso { get; set; } = new List<Proceso>();
 
         public static List<Proceso> ListaEjecucion { get; set; } = new List<Proceso>();
@@ -39,20 +38,39 @@
             return interno;
         }
 
+
         // organizando la cola
         public static Queue<Proceso> OrganizarCola(Queue<Proceso> cola)
         {
             Queue<Proceso> interno = new Queue<Proceso>();
+            List<Proceso> sortedProcesos = new List<Proceso>();
             // Organizando la lista basado en la rafaga
-            List<Proceso> sortedProcesos = cola.OrderBy(o => o.RafagaTemporal).ToList();
+            sortedProcesos = cola.OrderBy(o => o.RafagaTemporal).ToList();
 
-            foreach (Proceso item in sortedProcesos)
+            //foreach (Proceso item in cola)
+            //{
+            //    //if (item.TiempoLlegada <= EstadoInicial.TiempoGlobal)
+            //    //{
+            //    //&& (cola.Any(t => t.Name == item.Name)) == false
+            //    sortedProcesos.Add(item);
+            //    //interno.Enqueue(item);
+
+            //    //}
+
+            //    // Dos rafagas iguales definir logica para ordenar?
+            //    //item.RafagaTemporal = item.Rafaga;
+            //    Console.WriteLine($"name: {item.Name}, Rafaga: {item.Rafaga}");
+            //}
+            //sortedProcesos = sortedProcesos.OrderBy(o => o.RafagaTemporal).ToList();
+
+            foreach (var item in sortedProcesos)
             {
-                // Dos rafagas iguales definir logica para ordenar?
-                //item.RafagaTemporal = item.Rafaga;
                 interno.Enqueue(item);
-                Console.WriteLine($"name: {item.Name}, Rafaga: {item.Rafaga}");
             }
+
+            //interno = (Queue<Proceso>)interno.OrderBy(o => o.RafagaTemporal);
+
+            //List<Proceso> sortedProcesos = interno.OrderBy(o => o.RafagaTemporal).ToList();
 
             return interno;
         }

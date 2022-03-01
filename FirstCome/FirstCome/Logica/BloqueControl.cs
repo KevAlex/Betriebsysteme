@@ -101,6 +101,8 @@
 
             EstadoInicial.ProcesosListos = EstadoInicial.OrganizarLista(EstadoInicial.InicialProceso);
 
+            //EstadoInicial.ProcesosOrganizados = EstadoInicial.InicialProceso.OrderBy(t => t.TiempoLlegada).ToList();
+
             return Task.CompletedTask;
         }
 
