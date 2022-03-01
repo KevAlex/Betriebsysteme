@@ -8,8 +8,9 @@
         Random rnd = new Random();
         char randomChar;
         int randomRafaga;
-        int randomLlegada;
+        int randomPrioridad;
         int contadorNuevo = 4;
+
         public BloqueControl()
         {
             // _stateFacade = stateFacade;
@@ -94,7 +95,8 @@
             {
                 randomChar = (char)rnd.Next('a', 'z');
                 randomRafaga = rnd.Next(1, 7);
-                EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga });
+                randomPrioridad = rnd.Next(1, 5);
+                EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga, Prioridad = randomPrioridad });
                 Console.WriteLine(randomChar);
             }
 
@@ -109,7 +111,9 @@
             contadorNuevo++;
             randomChar = (char)rnd.Next('a', 'z');
             randomRafaga = rnd.Next(2, 5);
-            EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = randomChar, TiempoLlegada = contadorNuevo, Rafaga = randomRafaga, RafagaTemporal = randomRafaga });
+            randomPrioridad = rnd.Next(1, 5);
+
+            EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = randomChar, TiempoLlegada = contadorNuevo, Rafaga = randomRafaga, RafagaTemporal = randomRafaga, Prioridad = randomPrioridad });
             return Task.CompletedTask;
 
         }
