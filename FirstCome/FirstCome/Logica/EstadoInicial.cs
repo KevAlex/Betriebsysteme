@@ -45,7 +45,7 @@
             Queue<Proceso> interno = new Queue<Proceso>();
             List<Proceso> sortedProcesos = new List<Proceso>();
             // Organizando la lista basado en la rafaga
-            sortedProcesos = cola.OrderBy(o => o.RafagaTemporal).ToList();
+            sortedProcesos = cola.OrderBy(o => o.Prioridad).ToList();
 
             //foreach (Proceso item in cola)
             //{

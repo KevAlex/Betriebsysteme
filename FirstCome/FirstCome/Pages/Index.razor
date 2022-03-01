@@ -11,7 +11,7 @@
 <PageTitle>Index</PageTitle>
 
 <div class="alert alert-info" role="alert" style="text-align:center; height:70px">
-    <h3>Algoritmo SJF</h3>
+    <h3>Algoritmo de prioridades</h3>
 </div>
 
 <div style="text-align:center; ">
@@ -53,6 +53,7 @@
                         <th>Proceso</th>
                         <th>Tiempo Llegada</th>
                         <th>Rafaga</th>
+                        <th>Prioridad</th>
 
                     </TableHeader>
                     <RowTemplate>
@@ -64,6 +65,9 @@
                         </td>
                         <td>
                             @context.Rafaga
+                        </td>
+                        <td>
+                            @context.Prioridad
                         </td>
                     </RowTemplate>
                 </TableComponent>
@@ -88,6 +92,7 @@
                         <th>Proceso..</th>
                         <th>T. Llegada</th>
                         <th>Rafaga</th>
+                        <th>Prioridad</th>
                         <th>Tiempo Comienzo</th>
                         <th>Tiempo Final</th>
                         <th>Tiempo Retorno</th>
@@ -102,6 +107,9 @@
                         </td>
                         <td style="border: 1px solid #ddd">
                             @context.Rafaga
+                        </td>
+                        <td style="border: 1px solid #ddd">
+                            @context.Prioridad
                         </td>
                         <td style="border: 1px solid #ddd">
                             @context.TiempoComienzo
