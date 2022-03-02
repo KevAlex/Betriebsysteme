@@ -81,11 +81,11 @@
             //_estadoInicial.InicialProceso.Add(new Proceso { Name = "c", Rafaga = 1, TiempoLlegada = 1 });
             //_estadoInicial.InicialProceso.Add(new Proceso { Name = "d", Rafaga = 1, TiempoLlegada = 0 });
 
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 8, TiempoLlegada = 0 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 4, TiempoLlegada = 1 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 9, TiempoLlegada = 2 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 5, TiempoLlegada = 3 });
-            //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'e', Rafaga = 2, TiempoLlegada = 4 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 8, TiempoLlegada = 0 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'b', Rafaga = 4, TiempoLlegada = 1 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 9, TiempoLlegada = 2 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 5, TiempoLlegada = 3 });
+            EstadoInicial.InicialProceso.Add(new Proceso { Name = 'e', Rafaga = 2, TiempoLlegada = 4 });
 
 
             //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'a', Rafaga = 5, TiempoLlegada = 0 });
@@ -93,14 +93,14 @@
             //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'c', Rafaga = 2, TiempoLlegada = 2 });
             //EstadoInicial.InicialProceso.Add(new Proceso { Name = 'd', Rafaga = 1, TiempoLlegada = 3 });
 
-            for (int i = 0; i < 5; i++)
-            {
-                randomChar = (char)rnd.Next('a', 'z');
-                randomRafaga = rnd.Next(2, 5);
-                EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga });
-                Console.WriteLine(randomChar);
-            }
-
+            /* for (int i = 0; i < 5; i++)
+             {
+                 randomChar = (char)rnd.Next('a', 'z');
+                 randomRafaga = rnd.Next(2, 5);
+                 EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga });
+                 Console.WriteLine(randomChar);
+             }
+            */
 
             EstadoInicial.ProcesosListos = EstadoInicial.OrganizarLista(EstadoInicial.InicialProceso);
 

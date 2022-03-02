@@ -67,7 +67,7 @@
                         </td>
                     </RowTemplate>
                 </TableComponent>
-              
+
             }
             else
             {
@@ -174,7 +174,7 @@
         // Dibujo el mismo proceso en ejecucion
         <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
         // Trying to draw the waiteing time
-         @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
+        @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
     }
     else
     {
@@ -183,7 +183,7 @@
         {
             // Dibujo el mismo proceso en ejecucion
             <ProcesoUI Id=proc.Id Color="green" Posicion=proc.Posicion />
-             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
+            @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
         else
@@ -194,6 +194,8 @@
             @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
         }
     }
+
+
     // Dibujo los procesos en espera
     @*foreach (var espera in EstadoInicial.ProcesosListos)
         {
@@ -208,20 +210,40 @@
 
 
 }
+
+@foreach (var item in procesoEspera)
+{
+
+    if ((procesoEspera.Any(x => x.Id == item.Id)) == false)
+    {
+        <ProcesoUI Color="gray" Posicion=item.Posicion Id=@item.Id />
+
+    }
+    else
+    {
+        <br />
+        <ProcesoUI Color="gray" Posicion=item.Posicion Id=@item.Id />
+
+    }
+
+}
 @*// Dibujando los tiempos de espera*@
 @foreach (var anulado in EstadoInicial.ProcesosListos)
 {
-    if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
+    if ((anulado.TiempoLlegada < EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
     {
         <br />
         @* <p>rafaga en espera: @anulado.Name</p>*@
         @*<div style="position:relative; left:@(EstadoInicial.TiempoGlobal*20+10)px; background-color:gray; border: 1px solid black; width:20px; height:20px"></div>*@
 
-        foreach (var espera in procesoUIs)
-        {
-            @*<ProcesoUI Color="gray" Posicion=espera.Posicion+1 Id=@anulado.Name/>*@
+        // foreach (var espera in procesoUIs)
+        //{
+        
+        <ProcesoUI Color="gray" Posicion=EstadoInicial.TiempoGlobal Id=@anulado.Name />
+        //procesoEspera.Add(new ProcesoUI { Id = anulado.Name, Posicion = EstadoInicial.TiempoGlobal });
 
-        }
+
+        //}
     }
 }
 
@@ -265,6 +287,8 @@
     private int contadorUi = 0;
     List<int> tiempoUi = new List<int>();
     List<ProcesoUI> procesoUIs = new List<ProcesoUI>();
+    List<ProcesoUI> procesoEspera = new List<ProcesoUI>();
+
     private int aux = 0;
     private int auxEs = 0;
 
@@ -273,7 +297,7 @@
     {
         bloqueControl = new BloqueControl();
         estadoEjecucion = new EstadoEjecucion();
-        //bloqueControl.AgregarProcesoInicial();
+        bloqueControl.AgregarProcesoInicial();
         EstadoInicial.Semaforo = false;
         return base.OnInitializedAsync();
     }
@@ -295,6 +319,16 @@
             //contador = siguiente.RafagaTemporal;
             while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
             {
+                //foreach (var espera in EstadoInicial.ProcesosListos)
+                //{
+                //    if ((espera.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (espera.TiempoComienzo < EstadoInicial.TiempoGlobal))
+                //    {
+
+                //        <ProcesoUI Id=espera.Name Color="gray" Posicion=EstadoInicial.TiempoGlobal  />
+
+                //    }
+                //}
+
                 await estadoEjecucion.Ejecutar(siguiente);
                 EstadoInicial.TiempoGlobal++;
                 procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal });
