@@ -209,17 +209,24 @@
 
 }
 @*// Dibujando los tiempos de espera*@
+
+
 @foreach (var anulado in EstadoInicial.ProcesosListos)
 {
-    if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
+    if ((anulado.TiempoLlegada < EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
     {
         <br />
         @* <p>rafaga en espera: @anulado.Name</p>*@
         @*<div style="position:relative; left:@(EstadoInicial.TiempoGlobal*20+10)px; background-color:gray; border: 1px solid black; width:20px; height:20px"></div>*@
 
+        // foreach (var espera in procesoUIs)
+        //{
+        
+        <ProcesoUI Color="gray" Posicion=EstadoInicial.TiempoGlobal Id=@anulado.Name />
+        //procesoEspera.Add(new ProcesoUI { Id = anulado.Name, Posicion = EstadoInicial.TiempoGlobal });
 
-        //procesoUIs.Add(new ProcesoUI { Id = anulado.Name, Posicion = EstadoInicial.TiempoGlobal , Color="gray" });
 
+        //}
     }
 }
 
