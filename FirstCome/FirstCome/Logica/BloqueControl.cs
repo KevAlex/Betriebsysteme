@@ -9,7 +9,7 @@
         char randomChar;
         int randomRafaga;
         int randomLlegada;
-        int contadorNuevo = 4;
+        int contadorNuevo = 0;
         public BloqueControl()
         {
             // _stateFacade = stateFacade;
@@ -99,6 +99,7 @@
                 randomRafaga = rnd.Next(2, 6);
                 EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar, TiempoLlegada = i, Rafaga = randomRafaga });
                 Console.WriteLine(randomChar);
+                contadorNuevo++;
             }
 
 
@@ -109,11 +110,13 @@
 
         public Task AgregarNuevoProceso()
         {
-            contadorNuevo++;
+            
             randomChar = (char)rnd.Next('a', 'z');
-            randomRafaga = rnd.Next(2, 5);
+            randomRafaga = rnd.Next(2, 7);
             EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = randomChar, TiempoLlegada = contadorNuevo, Rafaga = randomRafaga, RafagaTemporal = randomRafaga });
+            contadorNuevo++;
             return Task.CompletedTask;
+            
 
         }
     }
