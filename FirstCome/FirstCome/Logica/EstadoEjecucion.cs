@@ -31,7 +31,9 @@
 
             //}
             /*else */
-            if (procesoN.FueBloqueado == true)
+
+            // Bloqueo del proceso
+            if (procesoN.FueBloqueado == true || procesoN.Expulsado == true)
             {
                 procesoN.TiempoComienzoAlterno = EstadoInicial.TiempoGlobal;
                 rafagaAuxiliar = procesoN.RafagaTemporal;
@@ -41,9 +43,11 @@
                 // Proceso.Bloqueado deberia ser true para el GUI mirar como manejarlo
             }
 
+
+
             EstadoInicial.Semaforo = true;
-            Console.WriteLine("Proceso en ejecucion " + procesoN.Name + " Llegada " + procesoN.TiempoLlegada + " Rafaga " + procesoN.Rafaga + " RafTem: " + procesoN.RafagaTemporal
-                + " Tiempo General " + EstadoInicial.TiempoGlobal);
+            //Console.WriteLine("Proceso en ejecucion " + procesoN.Name + " Llegada " + procesoN.TiempoLlegada + " Rafaga " + procesoN.Rafaga + " RafTem: " + procesoN.RafagaTemporal
+            //    + " Tiempo General " + EstadoInicial.TiempoGlobal);
 
             //while (procesoN.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false)
             //{
@@ -77,11 +81,13 @@
                 estadoBloqueo.BloquearProceso(procesoN);
 
                 //EstadoInicial.Semaforo = false;
+                // StudioUsos 3 Múnich
 
             }
             else if (!(procesoN.RafagaTemporal > 0))
             {
-                if (procesoN.FueBloqueado == false && i > 0)
+                // Si la i > 0 es porque el proceso fue bloqueado
+                if ((procesoN.FueBloqueado == false && i > 0) || (procesoN.Expulsado == true))
                 {
                     //procesoN.TiempoFinal = procesoN.Rafaga + procesoN.TiempoComienzoAlterno;
                     procesoN.TiempoFinal = rafagaAuxiliar + procesoN.TiempoComienzoAlterno;

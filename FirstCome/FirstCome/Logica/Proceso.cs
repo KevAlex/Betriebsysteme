@@ -25,7 +25,7 @@
 
         public int RafagaTemporal { get; set; } = 0;
 
-        public bool DibujadoUi { get; set; } = false;
+        public bool Expulsado { get; set; } = false;
 
     }
 }
