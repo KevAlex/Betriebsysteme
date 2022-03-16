@@ -1,7 +1,11 @@
 ﻿@page "/"
+
 @using FirstCome.Logica
 @using FirstCome.Store.State
 @using Shared
+@using Blazor.Extensions; 
+@using Blazor.Extensions.Canvas
+@using Blazor.Extensions.Canvas.Canvas2D;
 @*@inject BloqueControl _bloqueControl*@
 @*@inherits Fluxor.Blazor.Web.Components.FluxorComponent
     @inject IState<ProcesoState> ProcesoState
@@ -247,7 +251,23 @@
 }
 <br />
 <br />
+<BECanvas Width="300" Height="400" @ref="_canvasReference"></BECanvas>
+@code {
+    private Canvas2DContext _context;
 
+    protected BECanvasComponent _canvasReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this._context = await this._canvasReference.CreateCanvas2DAsync();
+        await this._context.SetFillStyleAsync("red");
+
+        await this._context.FillRectAsync(10, 100, 100, 100);
+
+        await this._context.SetFontAsync("38px Calibri");
+        await this._context.StrokeTextAsync("Hello Blazor!!!", 5, 100);
+ }
+}
 
 
 @code {
