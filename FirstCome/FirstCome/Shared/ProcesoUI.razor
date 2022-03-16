@@ -11,13 +11,13 @@
 </div>
 @code {
     [Parameter]
-    public char Id { get; set; }
+    public string Id { get; set; }
 
     [Parameter]
     public string Color { get; set; }
 
     [Parameter]
-    public int Posicion { get; set; } = 0;
+    public double Posicion { get; set; } = 0;
 
     [Parameter]
     public EventCallback<int> PosicionChanged { get; set; }

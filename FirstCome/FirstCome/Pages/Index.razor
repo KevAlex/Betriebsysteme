@@ -171,31 +171,50 @@
 @foreach (var proc in procesoUIs)
 {
     int index = procesoUIs.IndexOf(proc);
-
+    
     @if (index == 0)
     {
         // Dibujo el mismo proceso en ejecucion
-        <ProcesoUI Id=proc.Id Color=@proc.Color Posicion=proc.Posicion />
+        <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
         // Trying to draw the waiteing time
-         @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
+        @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
+         poscTemp = 0.0;
     }
     else
     {
+        
         aux = 1;
-        @if (procesoUIs[(index - aux)].Id == proc.Id)
+        @if (procesoUIs[(index - aux)].Id == proc.Id && poscTemp==0.0)
         {
             // Dibujo el mismo proceso en ejecucion
-            <ProcesoUI Id=proc.Id Color=@proc.Color Posicion=proc.Posicion />
+            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
+            
              @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
+
         else
         {
+             poscTemp = proc.Posicion + 0.3;
+             @if (procesoUIs[(index - aux)].Id == proc.Id)
+        {
+            // Dibujo el mismo proceso en ejecucion
+            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
+             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
+            @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
+        } else
+        {
+           
             <br />
             // Dibujo el nuevo proceso en ejecucion
-            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
-            @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
+            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
+                @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
+                
+               
+            }
         }
+
+       
     }
    
 
@@ -263,6 +282,7 @@
     private int aux = 0;
     private int quantumAlterno = 0;
     private int quantum = 2;
+    private double poscTemp = 0.0;
 
     protected override Task OnInitializedAsync()
     {
