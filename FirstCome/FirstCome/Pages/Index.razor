@@ -37,7 +37,7 @@
 
     }
 
-        <p style="color:blue">Quantum de tiempo (incluir el cero): @quantum </p>
+        <p style="color:blue">Quantum de tiempo (incluyendo el cero): @(quantum+1) </p>
 
 </div>
 
@@ -227,9 +227,9 @@
     {
         @*<p style="display:inline; color:green">Proceso en ejecucion: @eje.Name</p>*@
 
-        <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
+       @* <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
             Proceso en ejecucion: @eje.Name
-        </div>
+        </div>*@
     }
 }
 
@@ -239,9 +239,10 @@
     if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
     {
         @*<p style="color:gray">Proceso(s) en espera: @anulado.Name</p>*@
-        <div class="alert alert-dark" role="alert" style="height:55px; text-align:center">
-            Proceso en espera: @anulado.Name
-        </div>
+       
+        @*<div class="alert alert-dark" role="alert" style="height:55px; text-align:center">
+           Proceso en espera: @anulado.Name
+        </div>*@
     }
 }
 <br />
@@ -284,7 +285,7 @@
             siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
             // nombreUi.Add(siguiente.Name);
             
-            //await Task.Delay(1500);
+            await Task.Delay(1500);
             
             //contador = siguiente.RafagaTemporal;
             quantumAlterno = 0;
@@ -301,7 +302,7 @@
                     rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
                     tiempoUi.Add(EstadoInicial.TiempoGlobal);
                     
-                    //await Task.Delay(1500);
+                    await Task.Delay(1500);
                     
                     StateHasChanged();
                     quantumAlterno++;
@@ -310,9 +311,8 @@
                 if (EstadoInicial.ListaEjecucion.Contains(siguiente))
                 {
                     // Esta varable controla que el proceso calcule el t. final con la rafaga restante
-                    // pendiente por ser testeado
                     siguiente.Expulsado = true;
-                    siguiente.FueBloqueado = false;
+                    //siguiente.FueBloqueado = false;
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                 EstadoInicial.ProcesosListos.Enqueue(siguiente);
