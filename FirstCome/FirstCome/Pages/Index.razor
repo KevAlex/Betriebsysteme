@@ -11,7 +11,7 @@
 <PageTitle>Index</PageTitle>
 
 <div class="alert alert-info" role="alert" style="text-align:center; height:70px">
-    <h3>Algoritmo Round Robin</h3>
+    <h3>Algoritmo Shortest Remaining Time First</h3>
 </div>
 
 <div style="text-align:center; ">
@@ -37,7 +37,7 @@
 
     }
 
-        <p style="color:blue">Quantum de tiempo (incluyendo el cero): @(quantum+1) </p>
+     
 
 </div>
 
@@ -274,6 +274,8 @@
     private EstadoEjecucion estadoEjecucion;
     private EstadoBloqueo estadoBloqueo;
     Queue<Proceso> UiList = new Queue<Proceso>();
+    List<Proceso> TempProceso = new List<Proceso>();
+    Proceso TempP = new Proceso();
     Proceso procesoUi = new Proceso();
     List<int> rafagas = new List<int>();
     private int contadorUi = 0;
@@ -303,32 +305,48 @@
             rafagas.Add(EstadoInicial.TiempoGlobal);
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
             siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
-            // nombreUi.Add(siguiente.Name);
-            
-            await Task.Delay(1500);
-            
-            //contador = siguiente.RafagaTemporal;
-            quantumAlterno = 0;
+           await Task.Delay(1500);
 
-            //if ( quantumAlterno <= quantum)
-            //{
+    
 
-                while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false && quantumAlterno <= quantum)
+          
+
+
+
+            while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false )
+            {
+                await estadoEjecucion.Ejecutar(siguiente);
+                EstadoInicial.TiempoGlobal++;
+                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
+
+                rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
+                tiempoUi.Add(EstadoInicial.TiempoGlobal);
+
+                await Task.Delay(1500);
+
+                StateHasChanged();
+                
+                EstadoInicial.OrganizarListaRafaga();
+                TempProceso = EstadoInicial.ProcesosListos.ToList();
+
+                if (TempProceso.Count != 0)
+                
+                    TempP = TempProceso[0];
+                else
+                    TempP = siguiente;
+                
+                if (TempP.RafagaTemporal < siguiente.RafagaTemporal)
                 {
-                    await estadoEjecucion.Ejecutar(siguiente);
-                    EstadoInicial.TiempoGlobal++;
-                    procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
+                    siguiente.Expulsado = true;
+                    //siguiente.FueBloqueado = false;
 
-                    rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
-                    tiempoUi.Add(EstadoInicial.TiempoGlobal);
-                    
-                    await Task.Delay(1500);
-                    
-                    StateHasChanged();
-                    quantumAlterno++;
-                    Console.WriteLine($"Quantum: {quantumAlterno}");
+                    EstadoInicial.ListaEjecucion.Remove(siguiente);
+                    EstadoInicial.ProcesosListos.Enqueue(siguiente);
+                    siguiente = TempP;
+
                 }
-                if (EstadoInicial.ListaEjecucion.Contains(siguiente))
+            }
+               @* if (EstadoInicial.ListaEjecucion.Contains(siguiente))
                 {
                     // Esta varable controla que el proceso calcule el t. final con la rafaga restante
                     siguiente.Expulsado = true;
@@ -336,20 +354,14 @@
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                 EstadoInicial.ProcesosListos.Enqueue(siguiente);
-                }
+                }*@
                 EstadoInicial.ProcesoBloqueado = false;
                 
                 siguiente.Bloqueado = false;
                 
                 contadorUi++;
 
-            //}
-            //else
-            //{
-            //    EstadoInicial.ListaEjecucion.Remove(siguiente);
-            //    EstadoInicial.ProcesosListos.Enqueue(siguiente);
-
-            //}
+          
         }
     }
 

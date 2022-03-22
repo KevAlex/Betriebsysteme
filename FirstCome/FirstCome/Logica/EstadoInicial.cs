@@ -21,6 +21,7 @@
             InicialProceso.Add(nuevoProceso);
         }
 
+        
         public static Queue<Proceso> OrganizarLista(List<Proceso> listaInicial)
         {
             Queue<Proceso> interno = new Queue<Proceso>();
@@ -35,6 +36,16 @@
             return interno;
         }
 
+        public static void OrganizarListaRafaga()
+        {
+            
+             ProcesosListos.OrderBy(o => o.RafagaTemporal);
+
+            
+
+            
+            
+        }
 
         public static Task AumentarTiempoEspera()
         {
