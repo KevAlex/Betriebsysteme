@@ -309,11 +309,6 @@
             await Task.Delay(1500);
 
 
-
-
-
-
-
             while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false )
             {
                 await estadoEjecucion.Ejecutar(siguiente);
@@ -331,11 +326,11 @@
                 TempProceso = EstadoInicial.ProcesosListos.ToList();
 
                 if (TempProceso.Count != 0)
-                
+
                     TempP = TempProceso[0];
                 else
                     TempP = siguiente;
-                
+
                 if (TempP.RafagaTemporal < siguiente.RafagaTemporal)
                 {
                     siguiente.Expulsado = true;
@@ -344,8 +339,8 @@
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                     EstadoInicial.ProcesosListos.Enqueue(siguiente);
-                    siguiente = TempP;
-                    
+                    break;
+
 
                 }
             }
