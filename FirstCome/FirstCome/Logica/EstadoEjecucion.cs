@@ -100,8 +100,10 @@
                 }
                 procesoN.TiempoRetorno = procesoN.TiempoFinal - procesoN.TiempoLlegada;
                 procesoN.TiempoEspera = ((procesoN.TiempoRetorno - procesoN.Rafaga) + procesoN.TiempoEspera);
-                EstadoInicial.FinalProceso.Add(procesoN);
                 EstadoInicial.ListaEjecucion.Remove(procesoN);
+                EstadoInicial.FinalProceso.Add(procesoN);
+                EstadoInicial.OrganizarListaTllegada(EstadoInicial.FinalProceso);
+                
                 EstadoInicial.Semaforo = false;
                 rafagaAuxiliar = 0;
                 Console.WriteLine("Proceso finalizado " + procesoN.Name + " con tiempo general: " + EstadoInicial.TiempoGlobal);

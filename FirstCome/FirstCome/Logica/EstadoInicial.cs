@@ -25,7 +25,7 @@
         public static Queue<Proceso> OrganizarLista(List<Proceso> listaInicial)
         {
             Queue<Proceso> interno = new Queue<Proceso>();
-            List<Proceso> sortedProcesos = InicialProceso.OrderBy(o => o.TiempoLlegada).ToList();
+            List<Proceso> sortedProcesos = listaInicial.OrderBy(o => o.TiempoLlegada).ToList();
 
             foreach (Proceso item in sortedProcesos)
             {
@@ -36,15 +36,26 @@
             return interno;
         }
 
-        public static void OrganizarListaRafaga()
+        public static Queue<Proceso> OrganizarListaRafaga(List<Proceso> listaInicial, int tiempo)
         {
-            
-             ProcesosListos.OrderBy(o => o.RafagaTemporal);
 
+            Queue<Proceso> interno = new Queue<Proceso>();
             
+            List<Proceso> sortedProcesos = listaInicial.OrderBy(o => o.Rafaga <= tiempo).ThenBy(o => o.Rafaga).ToList();
 
-            
-            
+            foreach (Proceso item in sortedProcesos)
+            {
+                item.RafagaTemporal = item.Rafaga;
+                interno.Enqueue(item);
+            }
+
+            return interno;
+        }
+
+        public static void OrganizarListaTllegada(List<Proceso> listaInicial)
+        {
+
+            listaInicial.OrderBy(o => o.TiempoLlegada);
         }
 
         public static Task AumentarTiempoEspera()

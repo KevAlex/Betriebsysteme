@@ -6,6 +6,7 @@
         public int TiempoLlegada { get; set; } = 0;
         public int Rafaga { get; set; } = 0;
         public int TiempoComienzo { get; set; } = 0;
+        public string TiempoComienzoTexto { get; set; } = "";
 
         public int TiempoComienzoAlterno { get; set; } = 0;
 

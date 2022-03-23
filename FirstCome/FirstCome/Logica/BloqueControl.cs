@@ -98,7 +98,7 @@
             {
                 randomChar = (char)rnd.Next('a', 'z');
                 randomnumber = rnd.Next(0, 9);
-                randomRafaga = rnd.Next(2, 6);
+                randomRafaga = rnd.Next(2, 9);
                 EstadoInicial.InicialProceso.Add(new Proceso { Name = randomChar.ToString() + randomnumber, TiempoLlegada = i, Rafaga = randomRafaga });
                 Console.WriteLine(randomChar);
                 contadorNuevo++;
@@ -115,7 +115,7 @@
             
             randomChar = (char)rnd.Next('a', 'z');
             randomnumber= rnd.Next(0, 9);
-            randomRafaga = rnd.Next(2, 7);
+            randomRafaga = rnd.Next(2, 9);
             EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = randomChar.ToString()+randomnumber, TiempoLlegada = contadorNuevo, Rafaga = randomRafaga, RafagaTemporal = randomRafaga });
             contadorNuevo++;
             return Task.CompletedTask;

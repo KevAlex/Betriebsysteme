@@ -107,7 +107,7 @@
                             @context.Rafaga
                         </td>
                         <td style="border: 1px solid #ddd">
-                            @context.TiempoComienzo
+                            @context.TiempoComienzoTexto
                         </td>
                         <td style="border: 1px solid #ddd">
                             @context.TiempoFinal
@@ -305,11 +305,12 @@
             rafagas.Add(EstadoInicial.TiempoGlobal);
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
             siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
-           await Task.Delay(1500);
+            siguiente.TiempoComienzoTexto += EstadoInicial.TiempoGlobal;
+            await Task.Delay(1500);
 
-    
 
-          
+
+
 
 
 
@@ -325,8 +326,8 @@
                 await Task.Delay(1500);
 
                 StateHasChanged();
-                
-                EstadoInicial.OrganizarListaRafaga();
+
+                //EstadoInicial.ProcesosListos = EstadoInicial.OrganizarListaRafaga(EstadoInicial.ProcesosListos.ToList(), EstadoInicial.TiempoGlobal);
                 TempProceso = EstadoInicial.ProcesosListos.ToList();
 
                 if (TempProceso.Count != 0)
@@ -338,11 +339,13 @@
                 if (TempP.RafagaTemporal < siguiente.RafagaTemporal)
                 {
                     siguiente.Expulsado = true;
+                    siguiente.TiempoComienzoTexto += "-";
                     //siguiente.FueBloqueado = false;
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                     EstadoInicial.ProcesosListos.Enqueue(siguiente);
                     siguiente = TempP;
+                    
 
                 }
             }
