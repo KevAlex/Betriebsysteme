@@ -112,6 +112,9 @@
             randomChar = (char)rnd.Next('a', 'z');
             randomRafaga = rnd.Next(2, 5);
             EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = randomChar, TiempoLlegada = contadorNuevo, Rafaga = randomRafaga, RafagaTemporal = randomRafaga });
+
+            //EstadoInicial.ProcesosListos.Enqueue(new Proceso { Name = 'd', Rafaga = 1, TiempoLlegada = 3, RafagaTemporal = 1 });
+
             return Task.CompletedTask;
 
         }
