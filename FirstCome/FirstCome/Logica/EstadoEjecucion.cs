@@ -31,7 +31,7 @@
 
             //}
             /*else */
-            if (procesoN.FueBloqueado == true)
+            if (procesoN.FueBloqueado == true || procesoN.Expulsado == true)
             {
                 procesoN.TiempoComienzoAlterno = EstadoInicial.TiempoGlobal;
                 rafagaAuxiliar = procesoN.RafagaTemporal;
@@ -81,7 +81,7 @@
             }
             else if (!(procesoN.RafagaTemporal > 0))
             {
-                if (procesoN.FueBloqueado == false && i > 0)
+                if (procesoN.FueBloqueado == false && i > 0 || procesoN.Expulsado == true)
                 {
                     //procesoN.TiempoFinal = procesoN.Rafaga + procesoN.TiempoComienzoAlterno;
                     procesoN.TiempoFinal = rafagaAuxiliar + procesoN.TiempoComienzoAlterno;

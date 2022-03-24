@@ -23,6 +23,7 @@
         // de espera Esta variable sobra usar solo Bloqueado
         public bool FueBloqueado { get; set; } = false;
 
+        public bool Expulsado { get; set; } = false;
         public int RafagaTemporal { get; set; } = 0;
 
         public bool DibujadoUi { get; set; } = false;
