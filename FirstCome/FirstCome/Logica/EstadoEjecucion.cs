@@ -15,7 +15,7 @@
         public Task Ejecutar(Proceso procesoN)
         {
             int contadorUI = 0;
-
+            
 
             //EstadoInicial.ProcesoBloqueado = false;
 

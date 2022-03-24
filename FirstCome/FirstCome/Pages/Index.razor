@@ -300,7 +300,9 @@
 
         while (EstadoInicial.ProcesosListos.Count > 0)
         {
+            
             Proceso siguiente = EstadoInicial.ProcesosListos.Dequeue();
+            Console.WriteLine("rafaga temporal: " + siguiente.RafagaTemporal);
             procesoUi = siguiente;
             rafagas.Add(EstadoInicial.TiempoGlobal);
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
@@ -311,6 +313,7 @@
 
             while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false )
             {
+                
                 await estadoEjecucion.Ejecutar(siguiente);
                 EstadoInicial.TiempoGlobal++;
                 procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
@@ -340,9 +343,10 @@
                     //siguiente.TiempoEspera = ((siguiente.TiempoRetorno - siguiente.RafagaTemporal) + siguiente.TiempoEspera);
                     //siguiente.TiempoEsperaTexto += siguiente.TiempoEspera+ "-";
                     //siguiente.FueBloqueado = false;
-
+                    
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                     EstadoInicial.ProcesosListos.Enqueue(siguiente);
+                    Console.WriteLine("rafaga temporal proceso expulsado: " + siguiente.RafagaTemporal);
                     break;
 
 
@@ -357,13 +361,13 @@
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                 EstadoInicial.ProcesosListos.Enqueue(siguiente);
                 }*@
-                EstadoInicial.ProcesoBloqueado = false;
-                
-                siguiente.Bloqueado = false;
-                
-                contadorUi++;
+            EstadoInicial.ProcesoBloqueado = false;
 
-          
+            siguiente.Bloqueado = false;
+
+            contadorUi++;
+
+
         }
     }
 
@@ -375,8 +379,10 @@
         {
             bloqueado.FueBloqueado = true;
             // Genera simplemente un Warning en el navegador
+            bloqueado.TiempoComienzoTexto += "-";
             EstadoInicial.ListaEjecucion.Remove(bloqueado);
             EstadoInicial.ProcesosListos.Enqueue(bloqueado);
+            Console.WriteLine("Rafaga temporal: "+ bloqueado.RafagaTemporal);
         }
     }
     public async Task IniciarBloque()
