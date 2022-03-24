@@ -53,7 +53,10 @@
                         <th>Proceso</th>
                         <th>Tiempo Llegada</th>
                         <th>Rafaga</th>
-
+                        <th>Tiempo Comienzo</th>
+                        <th>Tiempo Final</th>
+                        <th>Tiempo Retorno</th>
+                        <th>Tiempo Espera</th>
                     </TableHeader>
                     <RowTemplate>
                         <td>
@@ -75,6 +78,66 @@
                             else
                             {
                             @context.RafagaTemporal
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+
+                            @if (@context.TiempoComienzoH.Any())
+                            {
+                                foreach (var item in context.TiempoComienzoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoComienzo
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+
+                        @if (@context.TiempoFinalH.Any())
+                            {
+                                foreach (var item in context.TiempoFinalH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoFinal
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.RetornoH.Any())
+                            {
+                                foreach (var item in context.RetornoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoRetorno
+
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.EsperaH.Any())
+                            {
+                                foreach (var item in context.EsperaH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoEspera
+
                             }
                     </td>
                 </RowTemplate>
@@ -378,7 +441,7 @@
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
 
 
-            //            await Task.Delay(1500);
+                        await Task.Delay(1500);
 
             //if (EstadoInicial.ListaEjecucion.First().TiempoLlegada <= EstadoInicial.TiempoGlobal)
             //{
@@ -436,7 +499,7 @@
                     tiempoUi.Add(EstadoInicial.TiempoGlobal);
                 }
 
-                // await Task.Delay(1500);
+                 await Task.Delay(1500);
 
                 StateHasChanged();
 
