@@ -13,6 +13,7 @@
         public int TiempoFinal { get; set; } = 0;
 
         public int TiempoEspera { get; set; } = 0;
+        public string TiempoEsperaTexto { get; set; } = "";
 
         public int TiempoRetorno { get; set; } = 0;
 

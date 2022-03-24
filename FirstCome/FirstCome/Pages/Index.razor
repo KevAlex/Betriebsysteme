@@ -116,7 +116,7 @@
                             @context.TiempoRetorno
                         </td>
                         <td style="border: 1px solid #ddd">
-                            @context.TiempoEspera
+                            @context.TiempoEsperaTexto
                         </td>
                     </RowTemplate>
                 </TableComponent>
@@ -304,7 +304,7 @@
             procesoUi = siguiente;
             rafagas.Add(EstadoInicial.TiempoGlobal);
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
-            siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
+            siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal-(siguiente.Rafaga-siguiente.RafagaTemporal);
             siguiente.TiempoComienzoTexto += EstadoInicial.TiempoGlobal;
             await Task.Delay(1500);
 
@@ -334,7 +334,11 @@
                 if (TempP.RafagaTemporal < siguiente.RafagaTemporal)
                 {
                     siguiente.Expulsado = true;
+                   
                     siguiente.TiempoComienzoTexto += "-";
+                    siguiente.TiempoRetorno = EstadoInicial.TiempoGlobal - siguiente.TiempoLlegada;
+                    siguiente.TiempoEspera = ((siguiente.TiempoRetorno - siguiente.RafagaTemporal) + siguiente.TiempoEspera);
+                    siguiente.TiempoEsperaTexto += siguiente.TiempoEspera+ "-";
                     //siguiente.FueBloqueado = false;
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
