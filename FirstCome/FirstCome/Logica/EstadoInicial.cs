@@ -38,10 +38,10 @@
 
         public static Queue<Proceso> OrganizarListaRafaga(List<Proceso> listaInicial, int tiempo)
         {
-
+            Console.WriteLine("tiempo: "+ tiempo);
             Queue<Proceso> interno = new Queue<Proceso>();
             
-            List<Proceso> sortedProcesos = listaInicial.OrderBy(o => o.Rafaga <= tiempo).ThenBy(o => o.Rafaga).ToList();
+            List<Proceso> sortedProcesos = listaInicial.OrderBy(o => o.TiempoLlegada > tiempo).ThenBy(o => o.RafagaTemporal).ToList();
 
             foreach (Proceso item in sortedProcesos)
             {

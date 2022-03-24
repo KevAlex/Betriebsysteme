@@ -100,7 +100,7 @@
                 }
                 procesoN.TiempoRetorno = procesoN.TiempoFinal - procesoN.TiempoLlegada;
                 procesoN.TiempoEspera = ((procesoN.TiempoRetorno - procesoN.Rafaga) + procesoN.TiempoEspera);
-                procesoN.TiempoEsperaTexto += procesoN.TiempoEspera;
+                //procesoN.TiempoEsperaTexto += procesoN.TiempoEspera;
                 EstadoInicial.ListaEjecucion.Remove(procesoN);
                 EstadoInicial.FinalProceso.Add(procesoN);
                 EstadoInicial.OrganizarListaTllegada(EstadoInicial.FinalProceso);
