@@ -45,7 +45,7 @@
 
             foreach (Proceso item in sortedProcesos)
             {
-                item.RafagaTemporal = item.Rafaga;
+                
                 interno.Enqueue(item);
             }
 

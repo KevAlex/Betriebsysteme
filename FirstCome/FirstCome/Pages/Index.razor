@@ -336,7 +336,7 @@
 
                 if (TempP.RafagaTemporal < siguiente.RafagaTemporal)
                 {
-                    siguiente.Expulsado = true;
+                    //siguiente.Expulsado = true;
                    
                     siguiente.TiempoComienzoTexto += "-";
                     //siguiente.TiempoRetorno = EstadoInicial.TiempoGlobal - siguiente.TiempoLlegada;
@@ -344,15 +344,13 @@
                     //siguiente.TiempoEsperaTexto += siguiente.TiempoEspera+ "-";
                     //siguiente.FueBloqueado = false;
                     
-                    EstadoInicial.ListaEjecucion.Remove(siguiente);
-                    EstadoInicial.ProcesosListos.Enqueue(siguiente);
-                    Console.WriteLine("rafaga temporal proceso expulsado: " + siguiente.RafagaTemporal);
+                   
                     break;
 
 
                 }
             }
-               @* if (EstadoInicial.ListaEjecucion.Contains(siguiente))
+                if (EstadoInicial.ListaEjecucion.Contains(siguiente))
                 {
                     // Esta varable controla que el proceso calcule el t. final con la rafaga restante
                     siguiente.Expulsado = true;
@@ -360,7 +358,7 @@
 
                     EstadoInicial.ListaEjecucion.Remove(siguiente);
                 EstadoInicial.ProcesosListos.Enqueue(siguiente);
-                }*@
+                }
             EstadoInicial.ProcesoBloqueado = false;
 
             siguiente.Bloqueado = false;
