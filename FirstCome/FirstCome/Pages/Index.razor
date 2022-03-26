@@ -37,7 +37,7 @@
 
     }
 
-        <p style="color:blue">Quantum de tiempo (incluyendo el cero): @(quantum+1) </p>
+    <p style="color:blue">Quantum de tiempo (incluyendo el cero): @(quantum+1) </p>
 
 </div>
 
@@ -56,7 +56,10 @@
                         <th>Proceso</th>
                         <th>Tiempo Llegada</th>
                         <th>Rafaga</th>
-
+                        <th>Tiempo Comienzo</th>
+                        <th>Tiempo Final</th>
+                        <th>Tiempo Retorno</th>
+                        <th>Tiempo Espera</th>
                     </TableHeader>
                     <RowTemplate>
                         <td>
@@ -66,11 +69,83 @@
                             @context.TiempoLlegada
                         </td>
                         <td>
-                            @context.Rafaga
-                        </td>
-                    </RowTemplate>
-                </TableComponent>
-              
+
+                            @if (@context.RafagaH.Any())
+                            {
+                                foreach (var item in context.RafagaH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.RafagaTemporal
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+
+                        @if (@context.TiempoComienzoH.Any())
+                            {
+                                foreach (var item in context.TiempoComienzoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoComienzo
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+
+                        @if (@context.TiempoFinalH.Any())
+                            {
+                                foreach (var item in context.TiempoFinalH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoFinal
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.RetornoH.Any())
+                            {
+                                foreach (var item in context.RetornoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoRetorno
+
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.EsperaH.Any())
+                            {
+                                foreach (var item in context.EsperaH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
+                            @context.TiempoEspera
+
+                            }
+                    </td>
+                </RowTemplate>
+            </TableComponent>
+
             }
             else
             {
@@ -101,25 +176,74 @@
                             @context.Name
                         </td>
                         <td style="border: 1px solid #ddd">
+
                             @context.TiempoLlegada
                         </td>
                         <td style="border: 1px solid #ddd">
                             @context.Rafaga
                         </td>
                         <td style="border: 1px solid #ddd">
+
+                            @if (@context.TiempoComienzoH.Any())
+                            {
+                                foreach (var item in context.TiempoComienzoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
                             @context.TiempoComienzo
-                        </td>
-                        <td style="border: 1px solid #ddd">
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+
+                        @if (@context.TiempoFinalH.Any())
+                            {
+                                foreach (var item in context.TiempoFinalH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
                             @context.TiempoFinal
-                        </td>
-                        <td style="border: 1px solid #ddd">
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.RetornoH.Any())
+                            {
+                                foreach (var item in context.RetornoH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
                             @context.TiempoRetorno
-                        </td>
-                        <td style="border: 1px solid #ddd">
+
+                            }
+                    </td>
+                    <td style="border: 1px solid #ddd">
+                        @if (@context.EsperaH.Any())
+                            {
+                                foreach (var item in context.EsperaH)
+                                {
+                                @item
+                                <p style="display:inline">,</p>
+                                }
+                            }
+                            else
+                            {
                             @context.TiempoEspera
-                        </td>
-                    </RowTemplate>
-                </TableComponent>
+
+                            }
+                    </td>
+                </RowTemplate>
+            </TableComponent>
             }
             else
             {
@@ -171,52 +295,53 @@
 @foreach (var proc in procesoUIs)
 {
     int index = procesoUIs.IndexOf(proc);
-    
+
     @if (index == 0)
     {
         // Dibujo el mismo proceso en ejecucion
         <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
         // Trying to draw the waiteing time
         @*<ProcesoUI Color="green"  Posicion=proc.Posicion-1/>*@
-         poscTemp = 0.0;
+        poscTemp = 0.0;
     }
     else
     {
-        
+
         aux = 1;
-        @if (procesoUIs[(index - aux)].Id == proc.Id && poscTemp==0.0)
+        @if (procesoUIs[(index - aux)].Id == proc.Id && poscTemp == 0.0)
         {
             // Dibujo el mismo proceso en ejecucion
             <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=proc.Posicion />
-            
-             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
+
+            @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
             @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
         }
 
         else
         {
-             poscTemp = proc.Posicion + 0.3;
-             @if (procesoUIs[(index - aux)].Id == proc.Id)
-        {
-            // Dibujo el mismo proceso en ejecucion
-            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
-             @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
-            @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
-        } else
-        {
-           
-            <br />
-            // Dibujo el nuevo proceso en ejecucion
-            <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
+            poscTemp = proc.Posicion + 0.3;
+            @if (procesoUIs[(index - aux)].Id == proc.Id)
+            {
+                // Dibujo el mismo proceso en ejecucion
+                <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
+                @*<ProcesoUI Color="green" Posicion=proc.Posicion-1/>*@
+                @*<ProcesoUI Color="gray" Posicion=proc.Posicion-1/>*@
+            }
+            else
+            {
+
+                <br />
+                // Dibujo el nuevo proceso en ejecucion
+                <ProcesoUI Id=@proc.Id Color=@proc.Color Posicion=poscTemp />
                 @*<ProcesoUI Id=@proc.Id Color="gray" Posicion=proc.Posicion-1/>*@
-                
-               
+
+
             }
         }
 
-       
+
     }
-   
+
 
 }
 @*// Dibujando los tiempos de espera*@
@@ -230,7 +355,7 @@
 
         // foreach (var espera in procesoUIs)
         //{
-        
+
         <ProcesoUI Color="gray" Posicion=EstadoInicial.TiempoGlobal Id=@anulado.Name />
         //procesoEspera.Add(new ProcesoUI { Id = anulado.Name, Posicion = EstadoInicial.TiempoGlobal });
 
@@ -246,9 +371,9 @@
     {
         @*<p style="display:inline; color:green">Proceso en ejecucion: @eje.Name</p>*@
 
-       @* <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
+        @* <div class="alert alert-success" role="alert" style="height:55px; text-align:center ">
             Proceso en ejecucion: @eje.Name
-        </div>*@
+            </div>*@
     }
 }
 
@@ -258,10 +383,10 @@
     if ((anulado.TiempoLlegada <= EstadoInicial.TiempoGlobal) && (anulado.TiempoComienzo < EstadoInicial.TiempoGlobal))
     {
         @*<p style="color:gray">Proceso(s) en espera: @anulado.Name</p>*@
-       
+
         @*<div class="alert alert-dark" role="alert" style="height:55px; text-align:center">
-           Proceso en espera: @anulado.Name
-        </div>*@
+            Proceso en espera: @anulado.Name
+            </div>*@
     }
 }
 <br />
@@ -303,45 +428,57 @@
             rafagas.Add(EstadoInicial.TiempoGlobal);
             tiempoUi.Add(EstadoInicial.TiempoGlobal);
             siguiente.TiempoComienzo = EstadoInicial.TiempoGlobal;
-            // nombreUi.Add(siguiente.Name);
-            
-            await Task.Delay(1500);
-            
-            //contador = siguiente.RafagaTemporal;
+
+            //await Task.Delay(1500);
+
             quantumAlterno = 0;
+            // Parte grafica e historial de tiempos
+            if ((siguiente.TiempoComienzoH.Contains(siguiente.TiempoComienzo) == false) ||
+                (siguiente.TiempoComienzoH.Contains(EstadoInicial.TiempoGlobal)))
+            {
+                siguiente.TiempoComienzoH.Add(EstadoInicial.TiempoGlobal);
+            }
 
-            //if ( quantumAlterno <= quantum)
-            //{
+            if (siguiente.RafagaH.Contains(siguiente.Rafaga) == false)
+            {
+                siguiente.RafagaH.Add(siguiente.Rafaga);
 
-                while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false && quantumAlterno <= quantum)
-                {
-                    await estadoEjecucion.Ejecutar(siguiente);
-                    EstadoInicial.TiempoGlobal++;
-                    procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
+            }
 
-                    rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
-                    tiempoUi.Add(EstadoInicial.TiempoGlobal);
-                    
-                    await Task.Delay(1500);
-                    
-                    StateHasChanged();
-                    quantumAlterno++;
-                    Console.WriteLine($"Quantum: {quantumAlterno}");
-                }
-                if (EstadoInicial.ListaEjecucion.Contains(siguiente))
-                {
-                    // Esta varable controla que el proceso calcule el t. final con la rafaga restante
-                    siguiente.Expulsado = true;
-                    //siguiente.FueBloqueado = false;
+            while (siguiente.RafagaTemporal > 0 && EstadoInicial.ProcesoBloqueado == false && quantumAlterno <= quantum)
+            {
+                await estadoEjecucion.Ejecutar(siguiente);
+                EstadoInicial.TiempoGlobal++;
+                procesoUIs.Add(new ProcesoUI { Id = siguiente.Name, Posicion = EstadoInicial.TiempoGlobal, Color = "green" });
 
-                    EstadoInicial.ListaEjecucion.Remove(siguiente);
+                rafagas[(rafagas.Count - 1)] = rafagas[(rafagas.Count - 1)] + 1;
+                tiempoUi.Add(EstadoInicial.TiempoGlobal);
+
+                //await Task.Delay(1500);
+
+                StateHasChanged();
+                quantumAlterno++;
+                Console.WriteLine($"Quantum: {quantumAlterno}");
+            }
+            if (EstadoInicial.ListaEjecucion.Contains(siguiente))
+            {
+                // Esta varable controla que el proceso calcule el t. final con la rafaga restante
+                siguiente.Expulsado = true;
+                //siguiente.FueBloqueado = false;
+                siguiente.RafagaH.Add(siguiente.RafagaTemporal);
+                siguiente.TiempoFinalH.Add(EstadoInicial.TiempoGlobal);
+                int retorno = EstadoInicial.TiempoGlobal - siguiente.TiempoLlegada;
+                int espera = retorno - (siguiente.Rafaga - siguiente.RafagaTemporal);
+                siguiente.RetornoH.Add(retorno);
+                siguiente.EsperaH.Add(espera);
+                EstadoInicial.ListaEjecucion.Remove(siguiente);
                 EstadoInicial.ProcesosListos.Enqueue(siguiente);
-                }
-                EstadoInicial.ProcesoBloqueado = false;
-                
-                siguiente.Bloqueado = false;
-                
-                contadorUi++;
+            }
+            EstadoInicial.ProcesoBloqueado = false;
+
+            siguiente.Bloqueado = false;
+
+            contadorUi++;
 
             //}
             //else

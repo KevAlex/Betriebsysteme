@@ -91,15 +91,20 @@
                 {
                     //procesoN.TiempoFinal = procesoN.Rafaga + procesoN.TiempoComienzoAlterno;
                     procesoN.TiempoFinal = rafagaAuxiliar + procesoN.TiempoComienzoAlterno;
+                    procesoN.TiempoFinalH.Add(procesoN.TiempoFinal);
                     i = 0;
                 }
                 else
                 {
                     procesoN.TiempoFinal = procesoN.Rafaga + procesoN.TiempoComienzo;
+                    procesoN.TiempoFinalH.Add(procesoN.TiempoFinal);
 
                 }
                 procesoN.TiempoRetorno = procesoN.TiempoFinal - procesoN.TiempoLlegada;
+                procesoN.RetornoH.Add(procesoN.TiempoRetorno);
                 procesoN.TiempoEspera = ((procesoN.TiempoRetorno - procesoN.Rafaga) + procesoN.TiempoEspera);
+                procesoN.EsperaH.Add(procesoN.TiempoEspera);
+
                 EstadoInicial.FinalProceso.Add(procesoN);
                 EstadoInicial.ListaEjecucion.Remove(procesoN);
                 EstadoInicial.Semaforo = false;
